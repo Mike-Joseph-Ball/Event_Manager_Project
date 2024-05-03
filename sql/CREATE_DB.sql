@@ -19,7 +19,7 @@ University_name VARCHAR(100)
 
 CREATE TABLE Venue(
 Venue_name VARCHAR(100),
-Max_Capacity int,
+Max_capacity int,
 Street_address VARCHAR(80),
 City VARCHAR(50),
 State VARCHAR(20),
