@@ -33,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql .= "'" . mysqli_real_escape_string($db, $user['User_email']) . "',";
     $sql .= "'" . mysqli_real_escape_string($db, $user['Phone_number']) . "',";
     $sql .= "'" . mysqli_real_escape_string($db, $user['Last_name']) . "',";
-    $sql .= "'" . mysqli_real_escape_string($db, $user['First_name']) . "'";
+    $sql .= "'" . mysqli_real_escape_string($db, $user['First_name']) . "',";
+    $sql .= "'" . mysqli_real_escape_string($db, $user['Password_hash']) . "'";
     $sql .= ")";
 
     $result = mysqli_query($db, $sql);
@@ -50,4 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_close($db);
 
     redirect_to('show_user.php?email=' . $new_user_email);
+
+    //Session data is server-side, while cookies are client-side.
+    //The session cookie contains the session identifier,
+    //which the server (i.e.: PHP) uses to retrieve 
+    //the proper session data.
+
+    session_start();
+    $_SESSION['User_email'] = $user['User_email'];
 }

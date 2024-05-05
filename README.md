@@ -10,4 +10,10 @@
 
 ## 4. Open up your browser and go to localhost/config.php
 
-## 5. You should now have ran config.php and created the database. It should also have taken you to index.php, which is the main page of the application.
+## 5.This will have created all of the tables for the database
+
+## 6. (optional) Go to localhost/add_dummy_data.php to add somme dummy data to play with.
+
+# START APPLICATION
+
+## 7. Go to localhost/cpsc-spring-332/index.php to start the application

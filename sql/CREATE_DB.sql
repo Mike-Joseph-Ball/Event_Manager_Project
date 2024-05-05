@@ -1,40 +1,40 @@
-create database Event_DB;
+create database IF NOT EXISTS Event_DB;
 use Event_DB;
 
-CREATE TABLE Sponsor (
+CREATE TABLE IF NOT EXISTS Sponsor (
 Sponsor_id int auto_increment primary key,
 Sponsor_name VARCHAR(100)
 );
 
-CREATE TABLE Keynote_speaker(
+CREATE TABLE IF NOT EXISTS Keynote_speaker(
 Speaker_id int auto_increment primary key,
 First_name VARCHAR(30),
 Last_name VARCHAR(30)
 );
 
-CREATE TABLE University(
+CREATE TABLE IF NOT EXISTS University(
 University_id int auto_increment primary key,
 University_name VARCHAR(100)
 );
 
-CREATE TABLE Venue(
+CREATE TABLE IF NOT EXISTS Venue(
+Venue_id int auto_increment primary key,
 Venue_name VARCHAR(100),
 Max_capacity int,
 Street_address VARCHAR(80),
 City VARCHAR(50),
 State VARCHAR(20),
-Zip VARCHAR(10),
-constraint Venue_address primary key (Street_address,City,State,Zip)
+Zip VARCHAR(10)
 );
 
-CREATE TABLE Presenter(
+CREATE TABLE IF NOT EXISTS Presenter(
 Presenter_id int auto_increment primary key,
 First_name  VARCHAR(30),
 Last_name VARCHAR(30),
 Presenter_title VARCHAR(30)
 );
 
-CREATE TABLE _User (
+CREATE TABLE IF NOT EXISTS _User (
 User_email VARCHAR(50) primary key,
 Phone_number VARCHAR(10),
 Last_name VARCHAR(50),
@@ -42,15 +42,12 @@ First_name VARCHAR(50),
 Password_hash VARCHAR(100)
 );
 
-CREATE TABLE _Event(
+CREATE TABLE IF NOT EXISTS _Event(
 Event_id int auto_increment primary key, # AUTO_INCREMENT Makes it so it just automatically makes unique IDs without the need to insert the id field when creating an event4
 User_email VARCHAR(50),
 FOREIGN KEY (User_email) REFERENCES _User(User_email),
-Street_address VARCHAR(80), -- Reference the individual columns of the composite key
-City VARCHAR(50),
-State VARCHAR(20),
-Zip VARCHAR(10),
-FOREIGN KEY (Street_address, City, State, Zip) REFERENCES Venue(Street_address, City, State, Zip),
+Venue_id int,
+FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id),
 University_id int,
 FOREIGN KEY (University_id) REFERENCES University(University_id),
 Deadline date,
@@ -61,20 +58,34 @@ End_date_time DATETIME,
 Event_type VARCHAR(30)
 );
 
-CREATE TABLE Sponsored_events (
-FOREIGN KEY (Sponser_id) REFERENCES Sponsor(Sponsor_id),
+CREATE TABLE IF NOT EXISTS Sponsored_events (
+Sponsor_id int,
+FOREIGN KEY (Sponsor_id) REFERENCES Sponsor(Sponsor_id),
+Event_id int,
 FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 );
 
-CREATE TABLE Speaks_on (
+CREATE TABLE IF NOT EXISTS Speaks_on (
+Speaker_id int,
 FOREIGN KEY (Speaker_id) REFERENCES Keynote_speaker(Speaker_id),
+Event_id int,
 FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 );
 
-CREATE TABLE Presents_on (
+CREATE TABLE IF NOT EXISTS Presents_on (
+Presenter_id int,
 FOREIGN KEY (Presenter_id) REFERENCES Presenter(Presenter_id),
+Event_id int,
 FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 );
+
+CREATE TABLE IF NOT EXISTS Enrolled_in (
+User_email VARCHAR(50),
+FOREIGN KEY (User_email) REFERENCES _User(User_email),
+Venue_id int,
+FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id)
+);
+
 
 
 
