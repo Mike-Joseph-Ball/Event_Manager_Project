@@ -10,7 +10,7 @@ $db = mysqli_connect($servername, $username, $password);
 if (mysqli_connect_errno()) {
     die("Connection failed: " . mysqli_connect_error());
 }
-echo "Connected successfully";
+echo "Connected successfully.";
 
 $query = file_get_contents('sql/CREATE_DB.sql');
 $queries = explode(';', $query);
@@ -24,7 +24,7 @@ foreach ($queries as $sql) {
         }
     }
 }
-echo "\nMade it through the execution of each SQL statement";
+echo "\nMade it through the execution of each SQL statement. EMPTY DATABASE SET UP (unless one was already there).";
 
 if (!$result) {
     exit("Failed database set up");

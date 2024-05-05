@@ -1,13 +1,14 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
 
 function redirect_to($location)
 {
-    header("Location: ") . $location;
+    header("Location: " . $location);
     exit;
 }
+
+$servername = "localhost";
+$username = "root";
+$password = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = [];
@@ -28,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit($msg);
     }
 
-    $sql = "INSERT INTO _User (Phone_number,Last_name,First_name,Password_hash) VALUES ";
+    $db_selected = mysqli_select_db($db, 'Event_DB');
+
+    $sql = "INSERT INTO _User (User_email,Phone_number,Last_name,First_name,Password_hash) VALUES ";
     $sql .= "(";
     $sql .= "'" . mysqli_real_escape_string($db, $user['User_email']) . "',";
     $sql .= "'" . mysqli_real_escape_string($db, $user['Phone_number']) . "',";
@@ -47,10 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     //No need to release returned data as returned data was just a boolean.
 
-    //Close database connection
-    mysqli_close($db);
-
-    redirect_to('show_user.php?email=' . $new_user_email);
 
     //Session data is server-side, while cookies are client-side.
     //The session cookie contains the session identifier,
@@ -59,4 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     session_start();
     $_SESSION['User_email'] = $user['User_email'];
+
+    //Close database connection
+    mysqli_close($db);
+
+    redirect_to('show_user.php?email=' . $new_user_email);
 }
