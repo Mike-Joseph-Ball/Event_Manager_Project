@@ -17,7 +17,7 @@ if (mysqli_connect_errno()) {
 
 session_start();
 
-if (isset($_SESSION['User_email']) && isset($_GET['email'])) {
+if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_email'] === $_GET['email'])) {
 
     $User_email = $_GET['email'];
 
@@ -35,11 +35,14 @@ if (isset($_SESSION['User_email']) && isset($_GET['email'])) {
 } elseif (!isset($_SESSION['User_email']) && !isset($_GET['email'])) {
     exit('Neither GET email or session set.');
 } elseif (!isset($_SESSION['User_email'])) {
-    exit('Must have valid session to view this page.');
+    exit('Does not have session at all!');
 } elseif (!isset($_GET['email'])) {
     exit('Somehow got here without GET');
+} elseif ($_GET['email'] != $_SESSION['User_email']) {
+    exit("Has session, but it isn't the session for this user");
 }
 ?>
 <h1><?php echo $user_data['First_name']; ?> <?php echo $user_data['Last_name']; ?><h1>
         <p><?php echo $user_data['User_email']; ?></p>
         <p><?php echo $user_data['Phone_number']; ?></p>
+        <a href="home.php"> Homepage.</a>

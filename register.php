@@ -37,7 +37,7 @@
 
                 <div class="field input">
                     <label for="password">Password</label>
-                    <input type="text" name="password" id="password" autocomplete="off" required>
+                    <input type="password" name="password" id="password" autocomplete="off" required>
                 </div>
 
                 <div class="field">
