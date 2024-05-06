@@ -28,11 +28,19 @@ if (!isset($_SESSION['User_email'])) {
         <div class="right-links">
             <a href="logout.php"><button class="btn">Log out</button></a>
         </div>
+
+        <div class="right-links">
+            <a href="event_signup_form.php"><button class="btn">View Events</button></a>
+            <a href="create_event_form.php"><button class="btn">Create Event</button></a>
+        </div>
     </div>
 
     <main>
         <div class="main-box top">
             <div class="top">
+                <div class="box">
+
+                </div>
                 <div class="box">
 
                 </div>

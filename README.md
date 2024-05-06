@@ -8,7 +8,7 @@
 
 3.  Open XAMPP and start Apache and mySQL
 
-4.  Open up your browser and go to localhost/cpsc-spring-332/config.php
+4.  Open up your browser and go to localhost/cpsc-spring-332/AEM.php
 
 5.  This will have created all of the tables for the database
 

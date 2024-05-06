@@ -18,13 +18,13 @@ University_name VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS Venue(
-Venue_id int auto_increment primary key,
 Venue_name VARCHAR(100),
 Max_capacity int,
 Street_address VARCHAR(80),
 City VARCHAR(50),
 State VARCHAR(20),
-Zip VARCHAR(10)
+Zip VARCHAR(10),
+primary key (Street_address,City,State,Zip)
 );
 
 CREATE TABLE IF NOT EXISTS Presenter(
@@ -46,8 +46,13 @@ CREATE TABLE IF NOT EXISTS _Event(
 Event_id int auto_increment primary key, # AUTO_INCREMENT Makes it so it just automatically makes unique IDs without the need to insert the id field when creating an event4
 User_email VARCHAR(50),
 FOREIGN KEY (User_email) REFERENCES _User(User_email),
-Venue_id int,
-FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id),
+
+Street_address VARCHAR(80),
+City VARCHAR(50),
+State VARCHAR(20),
+Zip VARCHAR(10),
+FOREIGN KEY (Street_address,City,State,Zip) REFERENCES Venue(Street_address,City,State,Zip),
+
 University_id int,
 FOREIGN KEY (University_id) REFERENCES University(University_id),
 Deadline date,
@@ -55,7 +60,8 @@ Event_name VARCHAR(100),
 Event_description VARCHAR(255),
 Start_date_time DATETIME,
 End_date_time DATETIME,
-Event_type VARCHAR(30)
+Event_type VARCHAR(30),
+Event_published BIT 
 );
 
 CREATE TABLE IF NOT EXISTS Sponsored_events (
@@ -82,8 +88,8 @@ FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 CREATE TABLE IF NOT EXISTS Enrolled_in (
 User_email VARCHAR(50),
 FOREIGN KEY (User_email) REFERENCES _User(User_email),
-Venue_id int,
-FOREIGN KEY (Venue_id) REFERENCES Venue(Venue_id)
+Event_id int,
+FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 );
 
 
