@@ -17,7 +17,7 @@ if (mysqli_connect_errno()) {
 
 session_start();
 
-if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_email'] === $_GET['email'])) {
+if (isset($_SESSION['User_email']) && isset($_GET['email'])) {
 
     $User_email = $_GET['email'];
 
@@ -38,8 +38,6 @@ if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_
     exit('Does not have session at all!');
 } elseif (!isset($_GET['email'])) {
     exit('Somehow got here without GET');
-} elseif ($_GET['email'] != $_SESSION['User_email']) {
-    exit("Has session, but it isn't the session for this user");
 }
 ?>
 
