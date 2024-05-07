@@ -91,7 +91,3 @@ FOREIGN KEY (User_email) REFERENCES _User(User_email),
 Event_id int,
 FOREIGN KEY (Event_id) REFERENCES _Event(Event_id)
 );
-
-
-
-
