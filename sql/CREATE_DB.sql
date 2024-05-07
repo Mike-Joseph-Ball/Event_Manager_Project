@@ -61,7 +61,7 @@ Event_description VARCHAR(255),
 Start_date_time DATETIME,
 End_date_time DATETIME,
 Event_type VARCHAR(30),
-Event_published BIT 
+Event_published int 
 );
 
 CREATE TABLE IF NOT EXISTS Sponsored_events (

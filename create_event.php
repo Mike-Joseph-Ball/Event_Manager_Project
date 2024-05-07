@@ -53,12 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $event_presenter_deadline = $_POST['deadline'];
 
-    if (isset($_POST['published'])) {
+    if (isset($_POST['published']) && !empty($_POST['published'])) {
+
         $is_event_published = 1;
     } else {
         $is_event_published = 0;
     }
-
+    //file_put_contents("publish.log", $is_event_published . PHP_EOL, FILE_APPEND);
 
     $sql = 'INSERT INTO _Event (User_email, Street_address, City, State, Zip, University_id, Deadline, Event_name, Event_description, Start_date_time, End_date_time, Event_type, Event_published) 
     VALUES ("' . mysqli_real_escape_string($db, $_SESSION['User_email']) . '", "'
@@ -74,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         . mysqli_real_escape_string($db, $event_end_date_time) . '", "'
         . mysqli_real_escape_string($db, $event_type) . '", "'
         . mysqli_real_escape_string($db, $is_event_published) . '")';
+
+    file_put_contents("publish.log", $is_event_published . PHP_EOL, FILE_APPEND);
 
     $query = mysqli_query($db, $sql);
 
