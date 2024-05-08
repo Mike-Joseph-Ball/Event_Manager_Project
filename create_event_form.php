@@ -103,6 +103,11 @@ $venue_query = mysqli_query($db, $sql);
                     <input type="date" name="deadline" id="deadline" autocomplete="off" required>
                 </div>
 
+
+
+
+
+
                 <input type="checkbox" id="published" name="published" value="published">
                 <label for="published"> Publish Upon Creation </label>
 

@@ -28,7 +28,6 @@ $sql = 'INSERT INTO Keynote_speaker (First_name,Last_name) VALUES ("Mike","Ball"
 $query = mysqli_query($db, $sql);
 $speaker_id = mysqli_insert_id($db);
 
-
 $sql = 'INSERT INTO University (University_name) VALUES ("California State University, Fullerton"),("California State University, Long Beach"),("Fullerton College"),("University of California, Irvine")';
 $query = mysqli_query($db, $sql);
 

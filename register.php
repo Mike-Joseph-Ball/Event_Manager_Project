@@ -12,7 +12,7 @@
     <div class="container">
         <div class="box form-box">
             <header>Sign Up</header>
-            <form action="create_user.php" method="post">
+            <form action="create_user.php" method="post" onsubmit="return validateForm()">
 
                 <div class="field input">
                     <label for="fname">First name</label>
@@ -38,6 +38,7 @@
                 <div class="field input">
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password" autocomplete="off" required>
+                    <span id="passwordError" style="color: red;"></span>
                 </div>
 
                 <div class="field">
@@ -49,6 +50,25 @@
                 </div>
 
             </form>
+
+            <script>
+                function validateForm() {
+                    let password = document.getElementById('password').value;
+                    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                    if (password.length < 8) {
+                        document.getElementById('passwordError').innerText = "Password must be at least 8 characters long.";
+                        return false;
+                    } else if (!regex.test(password)) {
+                        document.getElementById('passwordError').innerText = "Password must have at least eight characters long, one upper case, one lower case, one number, and one special character.";
+                        return false;
+                    } else {
+                        document.getElementById('passwordError').innerText = "";
+                        return true;
+                    }
+                }
+            </script>
+
         </div>
     </div>
 

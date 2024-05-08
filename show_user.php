@@ -17,7 +17,7 @@ if (mysqli_connect_errno()) {
 
 session_start();
 
-if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_email'] === $_GET['email'])) {
+if (isset($_SESSION['User_email']) && isset($_GET['email'])) {
 
     $User_email = $_GET['email'];
 
@@ -31,6 +31,9 @@ if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_
 
     $user_data = mysqli_fetch_assoc($result);
 
+    $sql = 'SELECT * FROM _Event WHERE User_email ="' . mysqli_real_escape_string($db, $_GET['email']) . '"';
+    $events = mysqli_query($db, $sql);
+
     //var_dump($user_data);
 } elseif (!isset($_SESSION['User_email']) && !isset($_GET['email'])) {
     exit('Neither GET email or session set.');
@@ -38,39 +41,50 @@ if (isset($_SESSION['User_email']) && isset($_GET['email']) && ($_SESSION['User_
     exit('Does not have session at all!');
 } elseif (!isset($_GET['email'])) {
     exit('Somehow got here without GET');
-} elseif ($_GET['email'] != $_SESSION['User_email']) {
-    exit("Has session, but it isn't the session for this user");
 }
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
     <title>Document</title>
 </head>
+
 <body>
-<div class="nav">
-    <p> Welcome <b><?php echo $user_data['First_name']; ?> <?php echo $user_data['Last_name']; ?> </b> </p>
+    <div class="nav">
+        <p> <?php if ($_SESSION['User_email'] === $_GET['email']) { ?>Welcome <?php } else { ?> Profile of <?php } ?><b><?php echo $user_data['First_name']; ?> <?php echo $user_data['Last_name']; ?> </b> </p>
+        <a href="home.php"><button class="btn">Homepage</button></a>
+    </div>
 
-</div>
 
 
-
-<main>
+    <main>
         <div class="box">
             <p> Email: <b> <?php echo $user_data['User_email']; ?> </b> </p>
             <p> Phone Number: <b> <?php echo $user_data['Phone_number']; ?> </b> </p>
         </div>
 
         <div class="events-box">
-            <p> <u> <b>Events </b> </u> <p>
-            <div class="event">
-                <a href="event_details.php"><button class="btn">EVENT INFO</button>
+            <p> <u> <b>Events </b> </u>
+            <p>
+                <?php while ($event = mysqli_fetch_assoc($events)) { ?>
+
+                    <script>
+                        function redirectToEvent_<?php echo $event['Event_id']; ?>() {
+                            window.location.href = "event_details.php?event_id=<?php echo $event['Event_id'] ?>"
+                        }
+                    </script>
+
+            <div class="box" onclick="redirectToEvent_<?php echo $event['Event_id']; ?>()">
+                <?php echo $event['Event_name'] ?>
             </div>
+
+        <?php } ?>
         </div>
 
     </main>
