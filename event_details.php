@@ -103,35 +103,76 @@ mysqli_data_seek($user_query, 0);
 //Event Type
 //Presenter abstract deadline
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details </title>
+    <link rel="stylesheet" href="style/style.css">
+
+</head>
+<body>
+
+
+<div class="nav">
+<a href="home.php"><button class="btn">Homepage</button></a>
 <h1><?php echo $event['Event_name']; ?></h1>
-<p><?php echo $event['Event_description']; ?></p>
-<h2>Managing User:</h2>
-<p><?php echo $user_info['First_name']; ?> <?php echo $user_info['Last_name']; ?></p>
-<h2>Event Starts at:<h2>
-        <p><?php echo $event_start_date ?>, <?php echo $event_start_time ?></p>
-        <h2> Event Ends at: </h2>
-        <p><?php echo $event_end_date ?>, <?php echo $event_end_time ?></p>
-        <h2>Venue:</h2>
-        <p><?php echo $Venue['Venue_name'] ?> - <?php echo $Venue['Street_address'] ?>, <?php echo $Venue['City'] ?>,<?php echo $Venue['State'] ?> <?php echo $Venue['Zip'] ?></p>
-        <h2>University:</h2>
-        <p><?php echo $University_name['University_name'] ?></p>
-        <h2>Event Type:</h2>
-        <p><?php echo $event['Event_type'] ?></p>
-        <a href="home.php"> Homepage.</a>
-        <?php if ($logged_in_user_email === $managing_user_email['User_email']) { ?>
-            <a href="delete_event.php?managing_user_email=<?php echo $managing_user_email['User_email'] ?>"><button class="btn">Delete Event</button></a>
 
-            <a href="toggle_publish_event.php?is_event_published=<?php echo $is_event_published; ?>&event_id=<?php echo $_GET['event_id'] ?>"><button class="btn"><?php if ($is_event_published) { ?>Unpublish Event <?php } else { ?>Publish Event <?php } ?></button></a>
+<?php if ($logged_in_user_email === $managing_user_email['User_email']) { ?>
 
-        <?php } else { ?>
-            <a href="toggle_register_for_event.php?User_email=<?php echo $logged_in_user_email; ?>"><?php if ($logged_in_user_enrolled) { ?>Unregister <?php } else { ?>Register <?php } ?></a>
-        <?php } ?>
 
-        <h2> Users who are signed up for this event: </h2>
-        <p> Emails: </p>
-        <?php //Below code creates a new anchor item for every user signed up for the event.
+<?php } else { ?>
+<?php } ?>
+<a href="toggle_register_for_event.php?User_email=<?php echo $logged_in_user_email; ?>"><?php if ($logged_in_user_enrolled) { ?>Unregister <?php } else { ?><button class="btn"> Register</button> <?php } ?></a>
+
+
+</div>
+
+
+<table border="1">
+<thead>
+            <tr>
+                <th>Event Type </th>
+                <th>Event Description </th>
+                <th>Start Time </th>
+                <th>End Time </th>
+                <th>Venue</th>
+                <th>University</th>
+                <th>Managing User </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><?php echo $event['Event_type'] ?></td>
+                <td><?php echo $event['Event_description']; ?></td>
+                <td><?php echo $event_start_date ?>, <?php echo $event_start_time ?></td>
+                <td><?php echo $event_end_date ?>, <?php echo $event_end_time ?></td>
+                <td><?php echo $Venue['Venue_name'] ?> - <?php echo $Venue['Street_address'] ?>, <?php echo $Venue['City'] ?>,<?php echo $Venue['State'] ?> <?php echo $Venue['Zip'] ?> </td>
+                <td><?php echo $University_name['University_name'] ?></td>
+                <td><?php echo $user_info['First_name']; ?> <?php echo $user_info['Last_name']; ?></td>
+            </tr>
+        </tbody>
+</table>
+
+<div class="box2">
+    <div class="regu">
+        <h2> Registered Users </h2>
+        <p><?php //Below code creates a new anchor item for every user signed up for the event.
         ?>
         <?php while ($row = mysqli_fetch_assoc($user_query)) { ?>
 
             <a href=" show_user.php?email=<?php echo $row['User_email']; ?>"><?php echo $row['User_email'] ?> </a>
-        <?php } ?>
+        <?php } ?></p>
+    </div>
+
+</div>
+
+        <div class="box3">
+        <a href="delete_event.php?managing_user_email=<?php echo $managing_user_email['User_email'] ?>"><button class="btn">Delete Event</button></a>
+        <a href="toggle_publish_event.php?is_event_published=<?php echo $is_event_published; ?>&event_id=<?php echo $_GET['event_id'] ?>"><button class="btn"><?php if ($is_event_published) { ?>Unpublish Event <?php } else { ?>Publish Event <?php } ?></button></a>
+
+</div>
+</body>
+
+</html>

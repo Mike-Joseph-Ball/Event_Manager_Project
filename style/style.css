@@ -27,6 +27,39 @@ body{
                 0 32px 64px -48px rgba(0, 0, 0, 0.5);
 }
 
+.box2{
+    display: flex;
+    flex-direction: column;
+}
+
+.box3{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.regu {
+    text-align: center;
+}
+
+table {
+    border: none;
+}
+
+th {
+    background: rgba(114, 150, 81, 0.808);
+    border: none;
+
+}
+tr {
+    background: rgba(103, 136, 72, 0.372);
+
+    border: none;
+}
+
+tbody {
+    border: none;
+}
+
 .form-box{
     width: 450px;
     margin: 0px 10px;
