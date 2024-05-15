@@ -57,7 +57,7 @@ if (isset($_SESSION['User_email']) && isset($_GET['email'])) {
 
 <body>
     <div class="nav">
-        <p> <?php if ($_SESSION['User_email'] === $_GET['email']) { ?>Welcome <?php } else { ?> Profile of <?php } ?><b><?php echo $user_data['First_name']; ?> <?php echo $user_data['Last_name']; ?> </b> </p>
+        <p> <?php if ($_SESSION['User_email'] == $_GET['email']) { ?>Welcome <?php } else { ?> Profile of <?php } ?><b><?php echo $user_data['First_name']; ?> <?php echo $user_data['Last_name']; ?> </b> </p>
         <a href="home.php"><button class="btn">Homepage</button></a>
     </div>
 

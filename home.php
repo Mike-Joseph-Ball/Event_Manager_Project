@@ -18,6 +18,28 @@ if (!isset($_SESSION['User_email'])) {
 $sql = 'SELECT * FROM _Event WHERE User_email <>"' . mysqli_real_escape_string($db, $_SESSION['User_email']) . '" AND Event_published = 1';
 $events = mysqli_query($db, $sql);
 
+//FUNCTION FOR CHECKING IF EVENT HAS > 100 USERS REGISTERED
+
+function is_event_greater_than_100($db, $event)
+{
+    if (!isset($event['User_email'])) {
+        exit('is_event_greater_than_100 function wrong data');
+    }
+
+    //Get all entries from enrolled_in table for the event
+
+    $sql = 'SELECT * FROM Enrolled_in where Event_id = ' . mysqli_real_escape_string($db, $event['Event_id']) . ';';
+    $query = mysqli_query($db, $sql);
+    $num_rows = mysqli_num_rows($query);
+
+    if ($num_rows > 100) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 ?>
 
 
@@ -35,9 +57,12 @@ $events = mysqli_query($db, $sql);
     <div class="nav">
         <div class="right-links">
             <a href="logout.php"><button class="btn">Log out</button></a>
+            <input type="checkbox" id="checkbox"> Events > 100 attendees
+            <input type="text" id="searchBox" placeholder="Search...">
         </div>
 
         <div class="right-links">
+            <a href="show_users.php?email=<?php echo $_SESSION['User_email'] ?>"><button class="btn">List of Users</button></a>
             <a href="show_user.php?email=<?php echo $_SESSION['User_email'] ?>"><button class="btn">Your Events</button></a>
             <a href="create_event_form.php"><button class="btn">Create Event</button></a>
         </div>
@@ -54,9 +79,20 @@ $events = mysqli_query($db, $sql);
                         }
                     </script>
 
-                    <div class="box" onclick="redirectToEvent_<?php echo $event['Event_id']; ?>()">
-                        <?php echo $event['Event_name'] ?>
-                    </div>
+                    <?php if (is_event_greater_than_100($db, $event)) { ?>
+
+                        <div class="box <?php echo ($event['Event_name']); ?>" onclick="redirectToEvent_<?php echo $event['Event_id']; ?>()">
+                            <?php echo $event['Event_name'] ?>
+                        </div>
+
+
+                    <?php } else { ?>
+
+                        <div class="box lessthan100 <?php echo ($event['Event_name']); ?>" data-eventName="<?php echo ($event['Event_name']); ?>" onclick="redirectToEvent_<?php echo $event['Event_id']; ?>()">
+                            <?php echo $event['Event_name'] ?>
+                        </div>
+
+                    <?php } ?>
 
                 <?php } ?>
 
@@ -66,5 +102,59 @@ $events = mysqli_query($db, $sql);
     </main>
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchBox = document.getElementById('searchBox');
+        const eventBoxes = document.querySelectorAll('.box');
+
+        searchBox.addEventListener('input', function() {
+            const query = searchBox.value.trim().toLowerCase();
+
+            eventBoxes.forEach(function(box) {
+                // Get the class of the event box
+                const boxClass = box.className.toLowerCase();
+
+                // Check if the class matches the search query
+                if (boxClass.includes(query)) {
+                    // Show the event box if it matches the search query
+                    box.style.display = 'block';
+                } else {
+                    // Hide the event box if it doesn't match the search query
+                    box.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    // Get references to the search box and the list of event boxes
+
+    // Add event listener to the search box
+    searchBox.addEventListener('input', function() {
+        const searchBox = document.getElementById('searchBox');
+        const eventBoxes = document.querySelectorAll('.box');
+        console.log("hello?")
+        // Get the search query from the search box
+        const query = searchBox.value.trim().toLowerCase();
+        console.log("hi")
+        // Loop through the event boxes
+        eventBoxes.forEach(function(box) {
+            console.log('Event Name:', box.dataset.eventName);
+
+            // Check if the event name includes the search query
+            if (eventName.includes(query)) {
+                // Show the event box if it matches the search query
+                box.style.display = 'block';
+            } else {
+                // Hide the event box if it doesn't match the search query
+                box.style.display = 'none';
+            }
+        });
+    });
+</script>
+
 
 </html>

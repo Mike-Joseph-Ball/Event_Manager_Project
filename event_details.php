@@ -92,6 +92,33 @@ while ($user = mysqli_fetch_assoc($user_query)) {
 }
 mysqli_data_seek($user_query, 0);
 
+//CHECK IF THE CURRENT EVENT IS AT (OR SOMEHOW ABOVE) CAPACITY
+
+function is_event_at_capacity($db, $event)
+{
+    //FIND THE VENUE WHERE THE STREET ADDRESS, CITY, AND STATE ARE THE SAME
+    $sql = 'SELECT * FROM Venue WHERE Street_address="' . mysqli_real_escape_string($db, $event['Street_address']) . '" AND City="' . mysqli_real_escape_string($db, $event['City']) . '" AND Zip=' . mysqli_real_escape_string($db, $event['Zip']) . ';';
+    $query = mysqli_query($db, $sql);
+    if (mysqli_num_rows($query) == 1) {
+        $venue = mysqli_fetch_assoc($query);
+    } else {
+        exit('some sort of error in is_event_at_capacity query');
+    }
+
+    //FIND THE NUMBER OF USERS REGISTERED FOR THIS EVENT
+    $sql = 'SELECT * FROM Enrolled_in WHERE Event_id=' . mysqli_real_escape_string($db, $_GET['event_id']) . ';';
+    $query = mysqli_query($db, $sql);
+    $users_registered_for_event = mysqli_num_rows($query);
+
+    //CHECK THE VENUE'S MAX CAPACITY AGAINST THE NUMBER OF USERS REGISTERED FOR THIS EVENT
+
+    if ($venue['Max_capacity'] == $users_registered_for_event) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 //Display:
 //Event Name
 //Event Description
@@ -120,14 +147,15 @@ mysqli_data_seek($user_query, 0);
     <div class="nav">
         <a href="home.php"><button class="btn">Homepage</button></a>
         <h1><?php echo $event['Event_name']; ?></h1>
-        <?php if ($logged_in_user_email != $managing_user_email['User_email']) { ?>
+        <?php if (($logged_in_user_email != $managing_user_email['User_email']) && !is_event_at_capacity($db, $event)) { ?>
             <a href="toggle_register_for_event.php?User_email=<?php echo $logged_in_user_email; ?>&is_enrolled=<?php echo $logged_in_user_enrolled ?>&event_id=<?php echo $_GET['event_id'] ?>"><?php if ($logged_in_user_enrolled) { ?>Unregister <?php } else { ?><button class="btn"> Register</button> <?php } ?></a>
+        <?php } elseif (is_event_at_capacity($db, $event)) { ?>
+            <p>Event at Capacity</p>
         <?php } ?>
-
     </div>
 
 
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Event Type </th>

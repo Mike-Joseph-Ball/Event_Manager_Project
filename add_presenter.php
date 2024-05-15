@@ -1,5 +1,4 @@
-<?php //Find all the venues in the system and display them in a dropdown.
-//Find all the universities and display them in the system.
+<?php
 
 $servername = "localhost";
 $username = "root";
