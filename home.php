@@ -105,6 +105,37 @@ function is_event_greater_than_100($db, $event)
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const checkbox = document.getElementById('checkbox');
+        const eventBoxes = document.querySelectorAll('.box');
+
+        checkbox.addEventListener('change', function() {
+            // Check if checkbox is checked
+            const isChecked = checkbox.checked;
+
+            // Loop through the event boxes
+            eventBoxes.forEach(function(box) {
+                // Check if the box has the 'lessthan100' class
+                const hasLessthan100Class = box.classList.contains('lessthan100');
+
+                // Show or hide the event box based on checkbox state
+                if (isChecked && hasLessthan100Class) {
+                    // Hide the event box if checkbox is unchecked and box has 'lessthan100' class
+                    box.style.display = 'none';
+                } else if (!isChecked && hasLessthan100Class) {
+                    // Show the event box if checkbox is checked and box has 'lessthan100' class
+                    box.style.display = 'block';
+                } else {
+                    // Always show the event box if it doesn't have 'lessthan100' class
+                    box.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const searchBox = document.getElementById('searchBox');
         const eventBoxes = document.querySelectorAll('.box');
 
@@ -127,34 +158,5 @@ function is_event_greater_than_100($db, $event)
         });
     });
 </script>
-
-
-<script>
-    // Get references to the search box and the list of event boxes
-
-    // Add event listener to the search box
-    searchBox.addEventListener('input', function() {
-        const searchBox = document.getElementById('searchBox');
-        const eventBoxes = document.querySelectorAll('.box');
-        console.log("hello?")
-        // Get the search query from the search box
-        const query = searchBox.value.trim().toLowerCase();
-        console.log("hi")
-        // Loop through the event boxes
-        eventBoxes.forEach(function(box) {
-            console.log('Event Name:', box.dataset.eventName);
-
-            // Check if the event name includes the search query
-            if (eventName.includes(query)) {
-                // Show the event box if it matches the search query
-                box.style.display = 'block';
-            } else {
-                // Hide the event box if it doesn't match the search query
-                box.style.display = 'none';
-            }
-        });
-    });
-</script>
-
 
 </html>
