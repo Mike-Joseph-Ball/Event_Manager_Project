@@ -12,7 +12,7 @@
 
 5.  This will have created all of the tables for the database
 
-6.  (optional) Go to localhost/add_dummy_data.php to add somme dummy data to play with.
+6.  (optional) Go to localhost/add_dummy_data.php to add some dummy data to play with.
 
 # START APPLICATION
 
