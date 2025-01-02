@@ -6,7 +6,7 @@
 
 2.  Clone the repository inside of XAMPP htdocs folder
 
-3.  Open XAMPP and start Apache and mySQL (PATH: C:/xampp/htdocs
+3.  Open XAMPP and start Apache and mySQL (PATH: C:/xampp/htdocs)
 
 4.  Open up your browser and go to localhost/cpsc-spring-332/AEM.php
 
